@@ -173,9 +173,14 @@ exports.thumbnail = function(options, callback) {
 		if (options.quality === undefined) imcmd = 'convert ' + options.src + ' -resize ' + resizewidth + 'x' + resizeheight + ' -extent '+ resizewidth + 'x' + resizeheight + ' -gravity ' + options.gravity + ' -crop '+ options.width + 'x'+ options.height + '+' + options.x + '+' + options.y + ' -background white -flatten ' + options.dst;
 		else imcmd = 'convert ' + options.src + ' -resize '+ resizewidth + 'x' + resizeheight + ' -extent  '+ resizewidth + 'x' + resizeheight + ' -quality ' + options.quality + ' -gravity ' + options.gravity + ' -crop '+ options.width + 'x'+ options.height + '+' + options.x + '+' + options.y + ' -quality ' + options.quality + ' -background white -flatten ' + options.dst;
 
-		console.log(imcmd);
+		imcmd = "convert "+options.src+" -thumbnail x"+(resizewidth*2)+" -resize '"+(resizewidth*2)+"x<' -resize 50% -gravity center -crop "+resizewidth+"x"+resizewidth+"+0+0 +repage "+" -background white -flatten " + options.dst;
 		
+		console.log(imcmd);
+		var start = Date.now();
 		child = exec(imcmd, function(err, stdout, stderr) {
+		    var end = Date.now();
+            
+            console.log("Exec: ", (end-start)/1000 + "s.");
 			if (err){
 	            return callback(err);
 	        }
