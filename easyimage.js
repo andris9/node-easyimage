@@ -2,17 +2,6 @@ var exec = require('child_process').exec;
 var child;
 var imcmd; // short for ImageMagick Command, how ingenious (y)
 
-// treasure of error messages
-var error_messages = {
-	'path': 'Missing image paths.\nMake sure both source and destination files are specified.',
-	'dim': 'Missing dimensions.\nSpecify the width atleast.',
-	'restricted': 'The command you are trying to execute is prohibited.',
-	'unsupported': 'File not supported.',
-};
-
-// function to throw errors at unsuspecting and potentially innocent developers
-var throw_err = function(type) { throw(error_messages[type]); };
-
 // general info function
 function info(file, callback) {
 	file = quoted_name(file);
