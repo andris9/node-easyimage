@@ -148,10 +148,10 @@ exports.thumbnail = function(options, callback) {
         return callback(new Error('Invalid dimensions'));
     }
 	options.height = options.height || options.width;
-	options.gravity = options.gravity || 'Center';
+	options.gravity = options.gravity || 'center';
 	options.x = options.x || 0;
 	options.y = options.y || 0;
-	options.src = quoted_name(options.src);
+	options.src = quoted_name(options.src+"[0]");
 	options.dst = quoted_name(options.dst);
 
 	info(options.src, function(err, original, stderr) {
@@ -165,14 +165,16 @@ exports.thumbnail = function(options, callback) {
 
 		var resizewidth = options.width;
 		var resizeheight = options.height;
-
+/*
 		if (original.width > original.height) { resizewidth = ''; }
 		else if (original.height > original.width) { resizeheight = ''; }
-
+*/
 		// resize and crop
-		if (options.quality === undefined) imcmd = 'convert ' + options.src + '[0] -resize ' + resizewidth + 'x' + resizeheight + ' -gravity ' + options.gravity + ' -crop '+ options.width + 'x'+ options.height + '+' + options.x + '+' + options.y + ' -background white -flatten ' + options.dst;
-		else imcmd = 'convert ' + options.src + '[0] -resize '+ resizewidth + 'x' + resizeheight + ' -quality ' + options.quality + ' -gravity ' + options.gravity + ' -crop '+ options.width + 'x'+ options.height + '+' + options.x + '+' + options.y + ' -quality ' + options.quality + ' -background white -flatten ' + options.dst;
+		if (options.quality === undefined) imcmd = 'convert ' + options.src + ' -resize ' + resizewidth + 'x' + resizeheight + ' -extent '+ resizewidth + 'x' + resizeheight + ' -gravity ' + options.gravity + ' -crop '+ options.width + 'x'+ options.height + '+' + options.x + '+' + options.y + ' -background white -flatten ' + options.dst;
+		else imcmd = 'convert ' + options.src + ' -resize '+ resizewidth + 'x' + resizeheight + ' -extent  '+ resizewidth + 'x' + resizeheight + ' -quality ' + options.quality + ' -gravity ' + options.gravity + ' -crop '+ options.width + 'x'+ options.height + '+' + options.x + '+' + options.y + ' -quality ' + options.quality + ' -background white -flatten ' + options.dst;
 
+		console.log(imcmd);
+		
 		child = exec(imcmd, function(err, stdout, stderr) {
 			if (err){
 	            return callback(err);
