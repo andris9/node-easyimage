@@ -170,8 +170,8 @@ exports.thumbnail = function(options, callback) {
 		else if (original.height > original.width) { resizeheight = ''; }
 
 		// resize and crop
-		if (options.quality === undefined) imcmd = 'convert ' + options.src + '[0] -resize ' + resizewidth + 'x' + resizeheight + ' -gravity ' + options.gravity + ' -crop '+ options.width + 'x'+ options.height + '+' + options.x + '+' + options.y + ' ' + options.dst;
-		else imcmd = 'convert ' + options.src + '[0] -resize '+ resizewidth + 'x' + resizeheight + ' -quality ' + options.quality + ' -gravity ' + options.gravity + ' -crop '+ options.width + 'x'+ options.height + '+' + options.x + '+' + options.y + ' -quality ' + options.quality + ' ' + options.dst;
+		if (options.quality === undefined) imcmd = 'convert ' + options.src + '[0] -resize ' + resizewidth + 'x' + resizeheight + ' -gravity ' + options.gravity + ' -crop '+ options.width + 'x'+ options.height + '+' + options.x + '+' + options.y + ' -background white -flatten ' + options.dst;
+		else imcmd = 'convert ' + options.src + '[0] -resize '+ resizewidth + 'x' + resizeheight + ' -quality ' + options.quality + ' -gravity ' + options.gravity + ' -crop '+ options.width + 'x'+ options.height + '+' + options.x + '+' + options.y + ' -quality ' + options.quality + ' -background white -flatten ' + options.dst;
 
 		child = exec(imcmd, function(err, stdout, stderr) {
 			if (err){
